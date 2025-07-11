@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/09 16:18:31 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/10 14:07:47 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,17 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <string.h>
+# include <limits.h>
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  STRUCTURES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 # define NB_MAX_PHILO 200
+
+typedef struct s_fork
+{
+	int				id;
+	pthread_mutex_t	fork;
+}		t_fork;
 
 typedef struct s_arguments
 {
