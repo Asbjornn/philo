@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:46:10 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/09 16:15:32 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 09:42:08 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 void	write_message(t_philo philo, t_state state)
 {
+	long	elapsed;
+
+	elapsed = get_time() - philo.table->start_dinner_time;
 	if (state == EAT)
-		printf("[%d] [%d] is eating\n");
+		printf("[%ld] [%d] is eating\n", elapsed, philo.id);
 	if (state == SLEEP)
-		printf("[%d] [%d] is sleeping\n");
+		printf("[%ld] [%d] is sleeping\n", elapsed, philo.id);
 	if (state == THINK)
-		printf("[%d] [%d] is thinking\n");
+		printf("[%ld] [%d] is thinking\n", elapsed, philo.id);
 	if (state == DEAD)
-		printf("[%d] [%d] died\n");
+		printf("[%ld] [%d] died\n", elapsed, philo.id);
+	if (state == LEFT_FORK)
+		printf("[%ld] [%d] as take the left fork", elapsed, philo.id);
+	if (state == RIGHT_FORK)
+		printf("[%ld] [%d] as take the right fork", elapsed, philo.id);
 }

@@ -7,7 +7,7 @@ THREAD	= -pthread
 INCLUDE	= include
 DIR_O	= file_o
 
-SRC		= philo.c states.c time.c write.c utils.c
+SRC		= philo.c states.c time.c write.c init.c dinner.c utils.c
 
 GREEN	= \033[1;92m
 
