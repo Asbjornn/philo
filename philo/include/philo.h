@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 09:43:24 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:15:15 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_arguments
 	int				eat_times;
 }		t_arguments;
 
-typedef struct s_table t_table;
+typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
@@ -50,6 +50,7 @@ typedef struct s_philo
 	int				id;
 	int				nb_eat;
 	int				last_time_eat;
+	int				die;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_table			*table;
@@ -73,17 +74,25 @@ typedef enum e_state
 	DEAD
 }		t_state;
 
+typedef enum e_error
+{
+	FORMAT = 0,
+	ARGUMENT,
+	VALUE
+}		t_error;
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ STATES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-void	state_eat(t_philo philo);
-void	state_sleep(t_philo philo);
-void	state_think(t_philo philo);
+void	state_eat(t_philo *philo);
+void	state_sleep(t_philo *philo);
+void	state_think(t_philo *philo);
 
 void	*routine(void *data);
 void	start_dinner(t_table *table);
 void	end_dinner(t_table *table);
 
 void	write_message(t_philo philo, t_state state);
+int		write_error(t_error error);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

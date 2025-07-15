@@ -6,36 +6,41 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 09:45:19 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:54:16 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 
-void    start_dinner(t_table *table)
+void	start_dinner(t_table *table)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < table->arg.nb_philo)
-    {
-        pthread_create(&table->philos[i].thread, NULL, routine, table);
-        i++;
-    }
+	i = 0;
+	table->start_dinner_time = get_time();
+	while (i < table->arg.nb_philo)
+	{
+		pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]);
+		i++;
+	}
 }
 
-void    end_dinner(t_table *table)
+void	end_dinner(t_table *table)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < table ->arg.nb_philo)
-    {
-        pthread_join(table->philos[i].thread, NULL);
-        pthread_mutex_destroy(&table->forks[i].fork);
-        free(&table->forks[i]);
-        free(&table->philos[i]);
-        i++;
-    }
-    free(table);
+	i = 0;
+	while (i < table ->arg.nb_philo)
+	{
+		pthread_join(table->philos[i].thread, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < table ->arg.nb_philo)
+	{
+		pthread_mutex_destroy(&table->forks[i].fork);
+		i++;
+	}
+	free(table->forks);
+	free(table->philos);
 }

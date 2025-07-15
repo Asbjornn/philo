@@ -6,13 +6,27 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 09:44:13 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 15:25:15 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 
-void init_fork(t_table *table)
+void	get_fork(t_philo *philo, t_table *t, int i)
+{
+	if (philo->id % 2 == 0)
+	{
+		philo->right_fork = &t->forks[i].fork;
+		philo->left_fork = &t->forks[(i + 1) % t->arg.nb_philo].fork;
+	}
+	else
+	{
+		philo->right_fork = &t->forks[(i + 1) % t->arg.nb_philo].fork;
+		philo->left_fork = &t->forks[i].fork;
+	}
+}
+
+void	init_fork(t_table *table)
 {
 	int	i;
 
@@ -25,29 +39,29 @@ void init_fork(t_table *table)
 	}
 }
 
-void init_philo(t_table *table)
+void	init_philo(t_table *t)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (i < table->arg.nb_philo)
+	while (i < t->arg.nb_philo)
 	{
-		table->philos[i].id = i + 1;
-		table->philos[i].left_fork = &table->forks[i].fork;
-		table->philos[i].right_fork = &table->forks[(i + 1) % table->arg.nb_philo].fork;
-		table->philos[i].table = table;
-		table->philos[i].nb_eat = 0;
-		table->philos[i].last_time_eat = 0;
+		t->philos[i].id = i + 1;
+		t->philos[i].table = t;
+		t->philos[i].nb_eat = 0;
+		t->philos[i].last_time_eat = 0;
+		t->philos[i].die = 0;
+		get_fork(&t->philos[i], t, i);
 		i++;
 	}
 }
 
-void    init_table(t_table *table)
+void	init_table(t_table *table)
 {
-	table->forks = malloc(sizeof(t_fork *) * table->arg.nb_philo);
+	table->forks = malloc(sizeof(t_fork) * table->arg.nb_philo);
 	if (!table->forks)
 		return ;
-	table->philos = malloc(sizeof(t_philo *) * table->arg.nb_philo);
+	table->philos = malloc(sizeof(t_philo) * table->arg.nb_philo);
 	if (!table->philos)
 	{
 		free(table->forks);

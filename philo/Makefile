@@ -3,6 +3,7 @@ NAME	= philo
 CC		= gcc
 FLAG	= -Wall -Wextra -Werror -g
 THREAD	= -pthread
+SANI	= -fsanitize=thread
 
 INCLUDE	= include
 DIR_O	= file_o
@@ -19,11 +20,11 @@ $(DIR_O):
 	@mkdir -p $(DIR_O)
 	
 $(DIR_O)/%.o: %.c | $(DIR_O)
-	@echo "Compilation de $< vers $@"
+	@echo -e "Compilation de $< vers $@"
 	@$(CC) $(FLAG) -I $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJ)
-	@$(CC) $(FLAG) $(OBJ) -o $(NAME) && echo "${GREEN}COMPILATION SUCEED"\
+	@$(CC) $(FLAG) $(OBJ) -o $(NAME) && echo -e "${GREEN}COMPILATION SUCEED"\
 	"\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"\
 	"⣿⣿⣿⣿⣿⣿⣿⠛⢩⣴⣶⣶⣶⣌⠙⠫⠛⢋⣭⣤⣤⣤⣤⡙⣿⣿⣿⣿⣿⣿\n"\
 	"⣿⣿⣿⣿⣿⡟⢡⣾⣿⠿⣛⣛⣛⣛⣛⡳⠆⢻⣿⣿⣿⠿⠿⠷⡌⠻⣿⣿⣿⣿\n"\
@@ -40,11 +41,14 @@ $(NAME): $(OBJ)
 	"⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢬⣭⣭⡶⠖⣢⣦⣀⠄⠄⠄⠄⢀⣤⣾⣿\n"\
 	"⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢰⣶⣶⣶⣾⣿⣿⣿⣿⣷⡄⠄⢠⣾⣿⣿⣿"
 
+sani: $(OBJ)
+	$(CC) $(SANI) $(FLAG) $(OBJ) -o $(NAME)
+
 clean:
-	@rm -rf $(DIR_O) && echo "${GREEN}FILE .O DELETED"
+	@rm -rf $(DIR_O) && echo -e "${GREEN}FILE .O DELETED"
 
 fclean: clean
-	@rm $(NAME) && echo "${GREEN}EXEC DELETED"
+	@rm $(NAME) && echo -e "${GREEN}EXEC DELETED"
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:17:24 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 09:45:58 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:15:57 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ int	main(int argc, char *argv[])
 	t_table	table;
 
 	if (argc < 5 || argc > 6)
-		printf("format: ./philo 'nb_philo' 'time_die'\
-			'time_eat' 'time_sleep'\n");
+		return (write_error(FORMAT));
 	else
 	{
 		if (parse_arg(argv) == 1)
-			return (0);
+			return (write_error(ARGUMENT));
 		table.arg = fill_arg(argv, &table.arg);
 		if (table.arg.nb_philo <= 0 || table.arg.time_die <= 0
 			|| table.arg.time_eat <= 0 || table.arg.time_sleep <= 0)
-			return (0);
+			return (write_error(VALUE));
 		init_table(&table);
 		start_dinner(&table);
 		end_dinner(&table);
