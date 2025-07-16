@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 17:10:00 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:40:26 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,19 @@ void	start_dinner(t_table *table)
 
 	i = 0;
 	table->start_dinner_time = get_time();
-	while (i < table->arg.nb_philo)
+	if (table->arg.nb_philo == 1)
+		pthread_create(&table->philos[i].thread, NULL,
+			alone_routine, &table->philos[i]);
+	else
 	{
-		pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]);
-		i++;
+		while (i < table->arg.nb_philo)
+		{
+			pthread_create(&table->philos[i].thread, NULL,
+				routine, &table->philos[i]);
+			i++;
+		}
+		pthread_create(&table->supervisor, NULL, supervisor, table);
 	}
-    pthread_create(&table->supervisor, NULL, supervisor, table);
 }
 
 void	end_dinner(t_table *table)
@@ -31,13 +38,14 @@ void	end_dinner(t_table *table)
 	int	i;
 
 	i = 0;
-	while (i < table ->arg.nb_philo)
+	while (i < table->arg.nb_philo)
 	{
 		pthread_join(table->philos[i].thread, NULL);
 		i++;
 	}
-    table->dinner = 1;
-    pthread_join(table->supervisor, NULL);
+	table->dinner = 1;
+	if (table->arg.nb_philo > 1)
+		pthread_join(table->supervisor, NULL);
 	i = 0;
 	while (i < table ->arg.nb_philo)
 	{

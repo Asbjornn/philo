@@ -6,13 +6,13 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:46:10 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 16:20:14 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:21:01 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 
-void	write_message(t_philo philo, t_state state)
+void	write_status(t_philo philo, t_state state)
 {
 	long	elapsed;
 

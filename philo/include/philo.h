@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 17:26:48 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/16 15:29:16 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,13 @@ void	end_dinner(t_table *table);
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ROUTINE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	*routine(void *data);
+void	*alone_routine(void *data);
 void	*supervisor(void *data);
+int		check_dead(t_philo *philo);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-void	write_message(t_philo philo, t_state state);
+void	write_status(t_philo philo, t_state state);
 int		write_error(t_error error);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -113,7 +115,7 @@ void	init_philo(t_table *table);
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int		get_time(void);
-void	better_usleep(int time);
+void	better_usleep(int time, t_table *table, t_philo *philo);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
