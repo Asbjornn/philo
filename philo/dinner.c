@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 15:54:16 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:10:00 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	start_dinner(t_table *table)
 		pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]);
 		i++;
 	}
+    pthread_create(&table->supervisor, NULL, supervisor, table);
 }
 
 void	end_dinner(t_table *table)
@@ -35,6 +36,8 @@ void	end_dinner(t_table *table)
 		pthread_join(table->philos[i].thread, NULL);
 		i++;
 	}
+    table->dinner = 1;
+    pthread_join(table->supervisor, NULL);
 	i = 0;
 	while (i < table ->arg.nb_philo)
 	{

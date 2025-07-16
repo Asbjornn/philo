@@ -6,20 +6,11 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 09:22:30 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 16:22:45 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:55:03 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
-
-void	better_usleep(int time)
-{
-	long int	sleep_time;
-
-	sleep_time = get_time() + time;
-	while (get_time() < sleep_time)
-		usleep(100);
-}
 
 // take both fork
 // eat and get the time 
@@ -48,26 +39,4 @@ void	state_sleep(t_philo *philo)
 void	state_think(t_philo *philo)
 {
 	write_message((*philo), THINK);
-}
-
-void	*routine(void *data)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)data;
-	while (!philo->die)
-	{
-		state_eat(philo);
-		state_sleep(philo);
-		state_think(philo);
-		if (get_time() - philo->table->start_dinner_time
-			> philo->last_time_eat + philo->table->arg.time_die)
-		{
-			write_message((*philo), DEAD);
-			philo->die = 1;
-		}
-		if (philo->nb_eat >= philo->table->arg.eat_times)
-			break ;
-	}
-	return (NULL);
 }

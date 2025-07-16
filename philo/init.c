@@ -6,13 +6,13 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 15:25:15 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:27:57 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 
-void	get_fork(t_philo *philo, t_table *t, int i)
+static void	get_forks(t_philo *philo, t_table *t, int i)
 {
 	if (philo->id % 2 == 0)
 	{
@@ -51,7 +51,7 @@ void	init_philo(t_table *t)
 		t->philos[i].nb_eat = 0;
 		t->philos[i].last_time_eat = 0;
 		t->philos[i].die = 0;
-		get_fork(&t->philos[i], t, i);
+		get_forks(&t->philos[i], t, i);
 		i++;
 	}
 }
@@ -67,6 +67,7 @@ void	init_table(t_table *table)
 		free(table->forks);
 		return ;
 	}
+	table->dinner = 0;
 	init_fork(table);
 	init_philo(table);
 }

@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 16:15:15 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:26:48 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ typedef struct s_philo
 typedef struct s_table
 {
 	long		start_dinner_time;
+	int			dinner;
 	t_arguments	arg;
 	t_philo		*philos;
 	t_fork		*forks;
+	pthread_t	supervisor;
 }		t_table;
 
 typedef enum e_state
@@ -87,9 +89,17 @@ void	state_eat(t_philo *philo);
 void	state_sleep(t_philo *philo);
 void	state_think(t_philo *philo);
 
-void	*routine(void *data);
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DINNER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 void	start_dinner(t_table *table);
 void	end_dinner(t_table *table);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ROUTINE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+void	*routine(void *data);
+void	*supervisor(void *data);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	write_message(t_philo philo, t_state state);
 int		write_error(t_error error);
@@ -100,11 +110,15 @@ void	init_table(t_table *table);
 void	init_fork(t_table *table);
 void	init_philo(t_table *table);
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+int		get_time(void);
+void	better_usleep(int time);
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int		ft_atoi(char *line);
 int		ft_strlen(char *line);
 int		parse_arg(char *argv[]);
-int		get_time(void);
 
 #endif

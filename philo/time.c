@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:22:26 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/09 13:24:15 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/15 16:55:08 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,13 @@ int	get_time(void)
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
+
+void	better_usleep(int time)
+{
+	long int	sleep_time;
+
+	sleep_time = get_time() + time;
+	while (get_time() < sleep_time)
+		usleep(100);
 }
