@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:46:10 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/16 10:21:01 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/17 15:57:31 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	write_status(t_philo philo, t_state state)
 {
 	long	elapsed;
 
+	if (philo.table->dinner)
+		return ;
 	elapsed = get_time() - philo.table->start_dinner_time;
 	if (state == EAT)
 		printf("%ld %d is eating\n", elapsed, philo.id);
@@ -43,4 +45,12 @@ int	write_error(t_error error)
 	else if (error == VALUE)
 		printf("Value of argument arent resonable\n");
 	return (1);
+}
+
+void	write_death(t_philo philo)
+{
+	long	elapsed;
+
+	elapsed = get_time() - philo.table->start_dinner_time;
+	printf("%ld %d died\n", elapsed, philo.id);
 }

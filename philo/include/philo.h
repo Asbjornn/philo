@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/16 15:29:16 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:17:56 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	int				id;
 	int				nb_eat;
 	int				last_time_eat;
+	int				out;
 	int				die;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -101,10 +102,16 @@ void	*alone_routine(void *data);
 void	*supervisor(void *data);
 int		check_dead(t_philo *philo);
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ROUTINE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+int		check_dead(t_philo *philo);
+int		check_full(t_philo *philo);
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	write_status(t_philo philo, t_state state);
 int		write_error(t_error error);
+void	write_death(t_philo philo);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

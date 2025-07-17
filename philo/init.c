@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 17:27:57 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/17 15:28:03 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_philo(t_table *t)
 		t->philos[i].nb_eat = 0;
 		t->philos[i].last_time_eat = 0;
 		t->philos[i].die = 0;
+		t->philos[i].out = 0;
 		get_forks(&t->philos[i], t, i);
 		i++;
 	}

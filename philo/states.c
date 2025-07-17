@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 09:22:30 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/16 15:30:35 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/17 15:05:21 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	state_eat(t_philo *philo)
 	write_status((*philo), EAT);
 	philo->nb_eat ++;
 	philo->last_time_eat = get_time() - philo->table->start_dinner_time;
-	// printf("=== last eat : %d ===\n", philo->last_time_eat);
 	better_usleep(philo->table->arg.time_eat, philo->table, philo);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
