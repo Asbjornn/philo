@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/17 16:17:56 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:59:39 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	long		start_dinner_time;
-	int			dinner;
-	t_arguments	arg;
-	t_philo		*philos;
-	t_fork		*forks;
-	pthread_t	supervisor;
+	long			start_dinner_time;
+	int				dinner;
+	t_arguments		arg;
+	t_philo			*philos;
+	t_fork			*forks;
+	pthread_t		supervisor;
 }		t_table;
 
 typedef enum e_state
@@ -100,9 +100,8 @@ void	end_dinner(t_table *table);
 void	*routine(void *data);
 void	*alone_routine(void *data);
 void	*supervisor(void *data);
-int		check_dead(t_philo *philo);
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ROUTINE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CHECKER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int		check_dead(t_philo *philo);
 int		check_full(t_philo *philo);

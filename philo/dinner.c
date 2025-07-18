@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/16 10:40:26 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/18 11:25:39 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ void	end_dinner(t_table *table)
 {
 	int	i;
 
-	i = 0;
-	while (i < table->arg.nb_philo)
-	{
+	i = -1;
+	while (i++ < table->arg.nb_philo)
 		pthread_join(table->philos[i].thread, NULL);
-		i++;
-	}
 	table->dinner = 1;
 	if (table->arg.nb_philo > 1)
 		pthread_join(table->supervisor, NULL);
