@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:17:24 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/15 16:15:57 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:59:09 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int	main(int argc, char *argv[])
 		if (parse_arg(argv) == 1)
 			return (write_error(ARGUMENT));
 		table.arg = fill_arg(argv, &table.arg);
-		if (table.arg.nb_philo <= 0 || table.arg.time_die <= 0
-			|| table.arg.time_eat <= 0 || table.arg.time_sleep <= 0)
+		if (table.arg.nb_philo <= 0 || table.arg.time_die <= 0)
 			return (write_error(VALUE));
 		init_table(&table);
 		start_dinner(&table);

@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:25:39 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:18:03 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	start_dinner(t_table *table)
 		}
 		pthread_create(&table->supervisor, NULL, supervisor, table);
 	}
+	pthread_create(&table->logger_thread, NULL, logger, table);
 }
 
 void	end_dinner(t_table *table)
@@ -49,6 +50,9 @@ void	end_dinner(t_table *table)
 		pthread_mutex_destroy(&table->forks[i].fork);
 		i++;
 	}
+	pthread_join(table->logger_thread, NULL);
+	pthread_mutex_destroy(&table->logger->mutex);
 	free(table->forks);
 	free(table->philos);
+	free(table->logger);
 }

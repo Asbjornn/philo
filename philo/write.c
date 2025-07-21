@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 13:46:10 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:59:36 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:06:53 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,39 @@ void	write_status(t_philo philo, t_state state)
 		return ;
 	elapsed = get_time() - philo.table->start_dinner_time;
 	if (state == EAT)
-		printf("%ld %d is eating\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "is eating");
 	if (state == SLEEP)
-		printf("%ld %d is sleeping\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "is sleeping");
 	if (state == THINK)
-		printf("%ld %d is thinking\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "is thinking");
 	if (state == DEAD)
-		printf("%ld %d died\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "died");
 	if (state == LEFT_FORK)
-		printf("%ld %d has taken a fork\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "has taken a fork");
 	if (state == RIGHT_FORK)
-		printf("%ld %d has taken a fork\n", elapsed, philo.id);
+		add_log(philo.table->logger, &philo, elapsed, "has taken a fork");
 }
+
+// void	write_status(t_philo philo, t_state state)
+// {
+// 	long	elapsed;
+
+// 	if (philo.table->dinner)
+// 		return ;
+// 	elapsed = get_time() - philo.table->start_dinner_time;
+// 	if (state == EAT)
+// 		printf("%ld %d is eating\n", elapsed, philo.id);
+// 	if (state == SLEEP)
+// 		printf("%ld %d is sleeping\n", elapsed, philo.id);
+// 	if (state == THINK)
+// 		printf("%ld %d is thinking\n", elapsed, philo.id);
+// 	if (state == DEAD)
+// 		printf("%ld %d died\n", elapsed, philo.id);
+// 	if (state == LEFT_FORK)
+// 		printf("%ld %d has taken a fork\n", elapsed, philo.id);
+// 	if (state == RIGHT_FORK)
+// 		printf("%ld %d has taken a fork\n", elapsed, philo.id);
+// }
 
 int	write_error(t_error error)
 {
@@ -45,12 +66,4 @@ int	write_error(t_error error)
 	else if (error == VALUE)
 		printf("Value of argument arent resonable\n");
 	return (1);
-}
-
-void	write_death(t_philo philo)
-{
-	long	elapsed;
-
-	elapsed = get_time() - philo.table->start_dinner_time;
-	printf("%ld %d died\n", elapsed, philo.id);
 }

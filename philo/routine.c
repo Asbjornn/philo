@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:53:03 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:42:35 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:20:29 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,44 @@ void	*supervisor(void *data)
 	int		i;
 
 	table = (t_table *)data;
-	better_usleep(5, table, NULL);
 	printf("=== SUPERVISOR IS UP ===\n");
-	while (1)
+	while (!table->dinner)
 	{
 		i = 0;
 		while (i < table->arg.nb_philo)
 		{
 			if (check_dead(&table->philos[i]) && !table->philos[i].out)
 			{
-				write_death(table->philos[i]);
+				write_status(table->philos[i], DEAD);
 				table->dinner = 1;
 				break ;
 			}
 			i++;
 		}
-		if (table->dinner)
-			break ;
 	}
 	printf("=== SUPERVISOR IS DOWN ===\n");
+	return (NULL);
+}
+
+void	*logger(void *data)
+{
+	t_table		*table;
+	t_logger	*logger;
+
+	table = (t_table *)data;
+	logger = table->logger;
+	printf("=== LOGGER IS UP ===\n");
+	while (!logger->stop)
+	{
+		if (logger->count == 0)
+		{
+			if (table->dinner)
+				break ;
+			better_usleep(5, table, NULL);
+		}
+		else
+			print_log(logger);
+	}
+	printf("=== LOGGER IS DOWN ===\n");
 	return (NULL);
 }

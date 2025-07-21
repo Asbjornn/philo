@@ -8,7 +8,7 @@ SANI	= -fsanitize=thread
 INCLUDE	= include
 DIR_O	= file_o
 
-SRC		= philo.c states.c time.c write.c init.c dinner.c routine.c checker.c utils.c
+SRC		= philo.c states.c time.c write.c init.c dinner.c routine.c checker.c logger.c utils.c
 
 GREEN	= \033[1;92m
 RED		= \033[1;31m

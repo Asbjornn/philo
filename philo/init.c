@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:59:23 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:20:58 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	get_forks(t_philo *philo, t_table *t, int i)
 	}
 }
 
-void	init_fork(t_table *table)
+static void	init_fork(t_table *table)
 {
 	int	i;
 
@@ -39,7 +39,7 @@ void	init_fork(t_table *table)
 	}
 }
 
-void	init_philo(t_table *t)
+static void	init_philo(t_table *t)
 {
 	int	i;
 
@@ -57,6 +57,15 @@ void	init_philo(t_table *t)
 	}
 }
 
+static void	init_logger(t_table *t)
+{
+	t->logger->count = 0;
+	t->logger->front = 0;
+	t->logger->rear = 0;
+	t->logger->stop = 0;
+	pthread_mutex_init(&t->logger->mutex, NULL);
+}
+
 void	init_table(t_table *table)
 {
 	table->forks = malloc(sizeof(t_fork) * table->arg.nb_philo);
@@ -68,7 +77,15 @@ void	init_table(t_table *table)
 		free(table->forks);
 		return ;
 	}
+	table->logger = malloc(sizeof(t_logger) * 1);
+	if (!table->logger)
+	{
+		free(table->forks);
+		free(table->philos);
+		return ;
+	}
 	table->dinner = 0;
 	init_fork(table);
 	init_philo(table);
+	init_logger(table);
 }

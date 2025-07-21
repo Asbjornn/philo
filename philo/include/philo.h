@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:59:39 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:21:26 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  STRUCTURES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 # define NB_MAX_PHILO 200
+# define NB_MAX_MESSAGE 50
 
 typedef struct s_fork
 {
@@ -41,6 +42,24 @@ typedef struct s_arguments
 	int				time_sleep;
 	int				eat_times;
 }		t_arguments;
+
+typedef struct s_log
+{
+	int		timestamp;
+	int		philo_id;
+	char	*message;
+	int		died;
+}		t_log;
+
+typedef struct s_logger
+{
+	t_log			logs[NB_MAX_MESSAGE];
+	int				front;
+	int				rear;
+	int				count;
+	int				stop;
+	pthread_mutex_t	mutex;
+}		t_logger;
 
 typedef struct s_table	t_table;
 
@@ -59,12 +78,14 @@ typedef struct s_philo
 
 typedef struct s_table
 {
+	pthread_t		supervisor;
+	pthread_t		logger_thread;
 	long			start_dinner_time;
 	int				dinner;
 	t_arguments		arg;
 	t_philo			*philos;
 	t_fork			*forks;
-	pthread_t		supervisor;
+	t_logger		*logger;
 }		t_table;
 
 typedef enum e_state
@@ -110,18 +131,22 @@ int		check_full(t_philo *philo);
 
 void	write_status(t_philo philo, t_state state);
 int		write_error(t_error error);
-void	write_death(t_philo philo);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	init_table(t_table *table);
-void	init_fork(t_table *table);
-void	init_philo(t_table *table);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TIME ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int		get_time(void);
 void	better_usleep(int time, t_table *table, t_philo *philo);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGGER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+void	add_log(t_logger *logger, t_philo *philo, int time, char *message);
+void	remove_log(t_logger *logger);
+void	print_log(t_logger *logger);
+void	*logger(void *data);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

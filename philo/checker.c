@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:05:25 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/18 11:43:47 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:46:48 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	check_dead(t_philo *philo)
 	if (now - last_eat > time_to_die)
 	{
 		philo->die = 1;
-		// philo->table->dinner = 1;
 		return (1);
 	}
 	return (0);
