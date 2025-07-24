@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 18:36:33 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/21 20:03:34 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/24 15:18:52 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,11 @@ void	add_log(t_logger *logger, t_philo *philo, int time, char *message)
 	logger->count++;
 	pthread_mutex_unlock(&logger->mutex);
 }
-void	remove_log(t_logger *logger)
-{
-	pthread_mutex_lock(&logger->mutex);
-	if (logger->count <= 0)
-	{
-		pthread_mutex_unlock(&logger->mutex);
-		return ;
-	}
-	logger->front = (logger->front + 1) % NB_MAX_MESSAGE;
-	logger->count--;
-	pthread_mutex_unlock(&logger->mutex);
-}
 
 void	print_log(t_logger *logger)
 {
 	t_log	log;
-	
+
 	pthread_mutex_lock(&logger->mutex);
 	if (logger->count <= 0)
 	{
@@ -52,7 +40,8 @@ void	print_log(t_logger *logger)
 	log = logger->logs[logger->front];
 	if (log.died)
 		logger->stop = 1;
-	pthread_mutex_unlock(&logger->mutex);
 	printf("%d %d %s\n", log.timestamp, log.philo_id, log.message);
-	remove_log(logger);
+	logger->front = (logger->front + 1) % NB_MAX_MESSAGE;
+	logger->count--;
+	pthread_mutex_unlock(&logger->mutex);
 }

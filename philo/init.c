@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/21 20:20:58 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/24 11:46:47 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	init_philo(t_table *t)
 		t->philos[i].die = 0;
 		t->philos[i].out = 0;
 		get_forks(&t->philos[i], t, i);
+		pthread_mutex_init(&t->philos[i].mutex_data, NULL);
 		i++;
 	}
 }
@@ -84,6 +85,7 @@ void	init_table(t_table *table)
 		free(table->philos);
 		return ;
 	}
+	pthread_mutex_init(&table->dinner_mutex, NULL);
 	table->dinner = 0;
 	init_fork(table);
 	init_philo(table);

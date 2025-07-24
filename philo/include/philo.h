@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/21 20:21:26 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/24 15:18:12 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_philo
 	int				die;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	mutex_data;
 	t_table			*table;
 }		t_philo;
 
@@ -81,6 +82,7 @@ typedef struct s_table
 	pthread_t		supervisor;
 	pthread_t		logger_thread;
 	long			start_dinner_time;
+	pthread_mutex_t	dinner_mutex;
 	int				dinner;
 	t_arguments		arg;
 	t_philo			*philos;
@@ -126,6 +128,7 @@ void	*supervisor(void *data);
 
 int		check_dead(t_philo *philo);
 int		check_full(t_philo *philo);
+int		check_all_full(t_table *t);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -144,9 +147,20 @@ void	better_usleep(int time, t_table *table, t_philo *philo);
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOGGER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	add_log(t_logger *logger, t_philo *philo, int time, char *message);
-void	remove_log(t_logger *logger);
 void	print_log(t_logger *logger);
 void	*logger(void *data);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GETTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+int		get_dinner(t_table *t);
+int		get_die(t_philo *philo);
+int		get_out(t_philo *philo);
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SETTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+void	set_dinner(t_table *t, int value);
+void	set_die(t_philo *philo, int value);
+void	set_out(t_philo *philo, int value);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

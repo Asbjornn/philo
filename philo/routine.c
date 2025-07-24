@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:53:03 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/21 20:20:29 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/24 15:34:34 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	*alone_routine(void *data)
 	write_status((*philo), LEFT_FORK);
 	better_usleep(philo->table->arg.time_die, philo->table, philo);
 	write_status((*philo), DEAD);
+	set_dinner(philo->table, 1);
+	set_die(philo, 1);
+	set_out(philo, 1);
 	return (NULL);
 }
 
@@ -31,19 +34,15 @@ void	*routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->id % 2 == 0)
 		better_usleep(philo->table->arg.time_eat, philo->table, NULL);
-	while (!philo->die && !philo->table->dinner)
+	while (!get_die(philo) && !get_dinner(philo->table))
 	{
 		state_eat(philo);
-		if (check_full(philo) || philo->table->dinner)
+		if (check_full(philo))
 			break ;
 		state_sleep(philo);
-		if (check_full(philo) || philo->table->dinner)
-			break ;
 		state_think(philo);
-		if (check_full(philo) || philo->table->dinner)
-			break ;
 	}
-	philo->out = 1;
+	set_out(philo, 1);
 	return (NULL);
 }
 
@@ -53,22 +52,28 @@ void	*supervisor(void *data)
 	int		i;
 
 	table = (t_table *)data;
-	printf("=== SUPERVISOR IS UP ===\n");
-	while (!table->dinner)
+	// printf("=== SUPERVISOR IS UP ===\n");
+	while (!get_dinner(table))
 	{
 		i = 0;
 		while (i < table->arg.nb_philo)
 		{
-			if (check_dead(&table->philos[i]) && !table->philos[i].out)
+			if (get_die(&table->philos[i]))
 			{
 				write_status(table->philos[i], DEAD);
-				table->dinner = 1;
+				set_dinner(table, 1);
+				break ;
+			}
+			if (check_all_full(table))
+			{
+				set_dinner(table, 1);
 				break ;
 			}
 			i++;
 		}
+		better_usleep(1, table, NULL);
 	}
-	printf("=== SUPERVISOR IS DOWN ===\n");
+	// printf("=== SUPERVISOR IS DOWN ===\n");
 	return (NULL);
 }
 
@@ -76,21 +81,29 @@ void	*logger(void *data)
 {
 	t_table		*table;
 	t_logger	*logger;
+	int			stop;
+	int			count;
 
 	table = (t_table *)data;
 	logger = table->logger;
-	printf("=== LOGGER IS UP ===\n");
-	while (!logger->stop)
+	// printf("=== LOGGER IS UP ===\n");
+	while (1)
 	{
-		if (logger->count == 0)
+		pthread_mutex_lock(&logger->mutex);
+		count = logger->count;
+		stop = logger->stop;
+		pthread_mutex_unlock(&logger->mutex);
+		if (stop)
+			break ;
+		if (!count)
 		{
-			if (table->dinner)
+			if (get_dinner(table))
 				break ;
 			better_usleep(5, table, NULL);
 		}
 		else
 			print_log(logger);
 	}
-	printf("=== LOGGER IS DOWN ===\n");
+	// printf("=== LOGGER IS DOWN ===\n");
 	return (NULL);
 }

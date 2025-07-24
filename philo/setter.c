@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   setter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 13:22:26 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 12:06:32 by gcauchy          ###   ########.fr       */
+/*   Created: 2025/07/24 11:44:57 by gcauchy           #+#    #+#             */
+/*   Updated: 2025/07/24 13:44:00 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 
-int	get_time(void)
+void	set_dinner(t_table *t, int value)
 {
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+	pthread_mutex_lock(&t->dinner_mutex);
+	t->dinner = value;
+	pthread_mutex_unlock(&t->dinner_mutex);
 }
 
-void	better_usleep(int time, t_table *table, t_philo *philo)
+void	set_die(t_philo *philo, int value)
 {
-	long int	sleep_time;
+	pthread_mutex_lock(&philo->mutex_data);
+	philo->die = value;
+	pthread_mutex_unlock(&philo->mutex_data);
+}
 
-	sleep_time = get_time() + time;
-	while (get_time() < sleep_time)
-	{
-		if (philo)
-		{
-			if (check_dead(philo) == 1)
-				break ;
-		}
-		if (get_dinner(table))
-			break ;
-		usleep(10);
-	}
+void	set_out(t_philo *philo, int value)
+{
+	pthread_mutex_lock(&philo->mutex_data);
+	philo->out = value;
+	pthread_mutex_unlock(&philo->mutex_data);
 }
