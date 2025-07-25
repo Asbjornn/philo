@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:53:03 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 15:34:34 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/25 11:09:24 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ void	*supervisor(void *data)
 	// printf("=== SUPERVISOR IS UP ===\n");
 	while (!get_dinner(table))
 	{
-		i = 0;
-		while (i < table->arg.nb_philo)
+		i = -1;
+		while (++i < table->arg.nb_philo)
 		{
-			if (get_die(&table->philos[i]))
+			if (check_dead(&table->philos[i]) && !get_out(&table->philos[i]))
 			{
 				write_status(table->philos[i], DEAD);
+				set_die(&table->philos[i], 1);
 				set_dinner(table, 1);
 				break ;
 			}
@@ -69,11 +70,10 @@ void	*supervisor(void *data)
 				set_dinner(table, 1);
 				break ;
 			}
-			i++;
 		}
 		better_usleep(1, table, NULL);
 	}
-	// printf("=== SUPERVISOR IS DOWN ===\n");
+	// printf("=== SUPERVISOR IS UP ===\n");
 	return (NULL);
 }
 

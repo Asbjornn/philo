@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 15:18:12 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/25 11:37:23 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  STRUCTURES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 # define NB_MAX_PHILO 200
-# define NB_MAX_MESSAGE 50
+# define NB_MAX_MESSAGE 100
 
 typedef struct s_fork
 {

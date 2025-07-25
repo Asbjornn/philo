@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 09:22:30 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 15:15:46 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/25 11:25:36 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 // if no fork -> think until fork are back ?
 void	state_eat(t_philo *philo)
 {
-	int	time;
-
 	if (get_dinner(philo->table) || get_die(philo))
 		return ;
 	pthread_mutex_lock(philo->left_fork);
@@ -26,9 +24,8 @@ void	state_eat(t_philo *philo)
 	pthread_mutex_lock(philo->right_fork);
 	write_status((*philo), RIGHT_FORK);
 	write_status((*philo), EAT);
-	time = get_time() - philo->table->start_dinner_time;
 	pthread_mutex_lock(&philo->mutex_data);
-	philo->last_time_eat = time;
+	philo->last_time_eat = get_time() - philo->table->start_dinner_time;
 	philo->nb_eat ++;
 	pthread_mutex_unlock(&philo->mutex_data);
 	better_usleep(philo->table->arg.time_eat, philo->table, philo);
