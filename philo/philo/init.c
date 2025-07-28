@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:08:20 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/25 11:58:05 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:47:50 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	init_table(t_table *table)
 	}
 	pthread_mutex_init(&table->dinner_mutex, NULL);
 	table->dinner = 0;
+	table->can_start = 0;
 	init_fork(table);
 	init_philo(table);
 	init_logger(table);

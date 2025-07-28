@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:05:25 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/25 11:14:40 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:28:52 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ int	check_full(t_philo *philo)
 	if (nb_eat == -1)
 		return (0);
 	if (eat_times >= nb_eat)
-	{
-		// printf("=== philo [%d] is full at [%ld] ===\n", philo->id, time);
 		return (1);
-	}
 	else
 		return (0);
 }

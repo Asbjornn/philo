@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 11:41:02 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 13:43:37 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:48:52 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ int	get_dinner(t_table *t)
 
 	pthread_mutex_lock(&t->dinner_mutex);
 	value = t->dinner;
+	pthread_mutex_unlock(&t->dinner_mutex);
+	return (value);
+}
+
+int	get_start(t_table *t)
+{
+	int	value;
+
+	pthread_mutex_lock(&t->dinner_mutex);
+	value = t->can_start;
 	pthread_mutex_unlock(&t->dinner_mutex);
 	return (value);
 }

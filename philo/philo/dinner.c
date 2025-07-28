@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 20:05:51 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/24 14:10:32 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:51:51 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	start_dinner(t_table *table)
 		}
 		pthread_create(&table->supervisor, NULL, supervisor, table);
 	}
+	set_start(table, 1);
 	pthread_create(&table->logger_thread, NULL, logger, table);
 }
 

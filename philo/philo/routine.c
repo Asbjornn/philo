@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:53:03 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/25 11:09:24 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:51:19 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,22 @@ void	*alone_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	write_status((*philo), LEFT_FORK);
+	write_status(philo, LEFT_FORK);
 	better_usleep(philo->table->arg.time_die, philo->table, philo);
-	write_status((*philo), DEAD);
+	write_status(philo, DEAD);
 	set_dinner(philo->table, 1);
 	set_die(philo, 1);
 	set_out(philo, 1);
 	return (NULL);
 }
 
-// Comment arreter la routine peut importe le moment quand un philo meurt ?
 void	*routine(void *data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+	while (!get_start(philo->table))
+		better_usleep(5, philo->table, philo);
 	if (philo->id % 2 == 0)
 		better_usleep(philo->table->arg.time_eat, philo->table, NULL);
 	while (!get_die(philo) && !get_dinner(philo->table))
@@ -52,7 +53,6 @@ void	*supervisor(void *data)
 	int		i;
 
 	table = (t_table *)data;
-	// printf("=== SUPERVISOR IS UP ===\n");
 	while (!get_dinner(table))
 	{
 		i = -1;
@@ -60,7 +60,7 @@ void	*supervisor(void *data)
 		{
 			if (check_dead(&table->philos[i]) && !get_out(&table->philos[i]))
 			{
-				write_status(table->philos[i], DEAD);
+				write_status(&table->philos[i], DEAD);
 				set_die(&table->philos[i], 1);
 				set_dinner(table, 1);
 				break ;
@@ -73,7 +73,6 @@ void	*supervisor(void *data)
 		}
 		better_usleep(1, table, NULL);
 	}
-	// printf("=== SUPERVISOR IS UP ===\n");
 	return (NULL);
 }
 
@@ -86,7 +85,6 @@ void	*logger(void *data)
 
 	table = (t_table *)data;
 	logger = table->logger;
-	// printf("=== LOGGER IS UP ===\n");
 	while (1)
 	{
 		pthread_mutex_lock(&logger->mutex);
@@ -104,6 +102,5 @@ void	*logger(void *data)
 		else
 			print_log(logger);
 	}
-	// printf("=== LOGGER IS DOWN ===\n");
 	return (NULL);
 }

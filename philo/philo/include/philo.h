@@ -6,7 +6,7 @@
 /*   By: gcauchy <gcauchy@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 17:15:54 by gcauchy           #+#    #+#             */
-/*   Updated: 2025/07/25 11:37:23 by gcauchy          ###   ########.fr       */
+/*   Updated: 2025/07/28 13:49:34 by gcauchy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  STRUCTURES  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-# define NB_MAX_PHILO 200
-# define NB_MAX_MESSAGE 100
+# define NB_MAX_PHILO 500
+# define NB_MAX_MESSAGE 250
 
 typedef struct s_fork
 {
@@ -84,6 +84,7 @@ typedef struct s_table
 	long			start_dinner_time;
 	pthread_mutex_t	dinner_mutex;
 	int				dinner;
+	int				can_start;
 	t_arguments		arg;
 	t_philo			*philos;
 	t_fork			*forks;
@@ -132,7 +133,7 @@ int		check_all_full(t_table *t);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WRITE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-void	write_status(t_philo philo, t_state state);
+void	write_status(t_philo *philo, t_state state);
 int		write_error(t_error error);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -153,12 +154,14 @@ void	*logger(void *data);
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GETTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 int		get_dinner(t_table *t);
+int		get_start(t_table *t);
 int		get_die(t_philo *philo);
 int		get_out(t_philo *philo);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SETTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 void	set_dinner(t_table *t, int value);
+void	set_start(t_table *t, int value);
 void	set_die(t_philo *philo, int value);
 void	set_out(t_philo *philo, int value);
 
