@@ -1,22 +1,21 @@
-NAME		= philo
+NAME	= philo
 
-CC			= cc
-FLAG		= -Wall -Wextra -Werror -g
-THREAD		= -pthread
-SANI		= -fsanitize=thread
+CC		= cc
+FLAG	= -Wall -Wextra -Werror -g
+THREAD	= -pthread
+SANI	= -fsanitize=thread
 
-INCLUDE		= include
-DIR_O		= file_o
-PHILO_DIR	=
+INCLUDE	= include
+DIR_O	= file_o
 
-SRC			= philo.c states.c time.c write.c init.c dinner.c\
-			  routine.c checker.c logger.c getter.c setter.c utils.c
+SRC		= philo.c states.c time.c write.c init.c dinner.c\
+		  routine.c checker.c logger.c getter.c setter.c utils.c
 
-GREEN		= \033[1;92m
-RED			= \033[1;31m
-BLUE		= \033[0;90m
+GREEN	= \033[1;92m
+RED		= \033[1;31m
+BLUE	= \033[0;90m
 
-OBJ			= $(patsubst %.c,$(DIR_O)/%.o,$(SRC))
+OBJ		= $(patsubst %.c,$(DIR_O)/%.o,$(SRC))
 
 all: $(NAME)
 
